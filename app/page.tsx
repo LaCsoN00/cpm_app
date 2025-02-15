@@ -60,6 +60,9 @@ export default function Home() {
     }
   }
 
+  // Fonction pour vérifier si le bouton doit être désactivé
+  const isButtonDisabled = !name || !descrition;
+
   return (
     <Wrapper>
       <div>
@@ -90,7 +93,11 @@ export default function Home() {
                 required
               >
               </textarea>
-              <button className="btn btn-primary" onClick={handleSubmit}>
+              <button 
+                className="btn btn-primary" 
+                onClick={handleSubmit} 
+                disabled={isButtonDisabled} // Désactive le bouton si les champs sont vides
+              >
                 Nouveau Projet <Globe />
               </button>
             </div>
@@ -98,7 +105,6 @@ export default function Home() {
         </dialog>
 
         <div className="w-full">
-
           {projects.length > 0 ? (
             <ul className="w-full grid md:grid-cols-3 gap-6">
               {projects.map((project) => (
@@ -110,13 +116,12 @@ export default function Home() {
           ) : (
             <div>
               <EmptyState
-                 imageSrc='/empty-project.png'
-                 imageAlt="Picture of an empty project"
-                 message="Aucun projet Créer"
+                imageSrc='/empty-project.png'
+                imageAlt="Picture of an empty project"
+                message="Aucun projet Créer"
               />
             </div>
           )}
-
         </div>
 
       </div>
