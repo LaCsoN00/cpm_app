@@ -395,4 +395,23 @@ export const updateTaskStatus = async (taskId: string, newStatus: string, soluti
     }
 }
 
+export async function subscribeUser(email: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
+
+        if (!user) {
+            throw new Error('Utilisateur non trouvé');
+        }
+
+        console.log(`Utilisateur avec l'email ${email} a été inscrit avec succès.`);
+        return `Utilisateur avec l'email ${email} a été inscrit avec succès.`;
+
+    } catch (error) {
+        console.error('Erreur lors de la souscription de l\'utilisateur:', error);
+        throw new Error('Erreur lors de la souscription de l\'utilisateur');
+    }
+}
+
 
