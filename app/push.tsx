@@ -65,7 +65,7 @@ function PushNotificationManager() {
     try {
       await subscription?.unsubscribe()
       setSubscription(null)
-      await unsubscribeUser()
+      await unsubscribeUser('lucmounguengui@gmail.com', 'projectId')
     } catch (error) {
       console.error('Unsubscription Failed:', error)
     }
@@ -75,7 +75,7 @@ function PushNotificationManager() {
   async function sendTestNotification() {
     if (!message.trim()) return
     try {
-      await sendNotification(message)
+      await sendNotification('lucmounguengui@gmail.com', message)
       setMessage('')
     } catch (error) {
       console.error('Notification Failed:', error)
