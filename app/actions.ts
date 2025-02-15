@@ -2,6 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { randomBytes } from "crypto";
+import nodemailer from 'nodemailer';
+
 
 export async function checkAndAddUser(email: string, name: string) {
     if (!email) return
@@ -414,4 +416,82 @@ export async function subscribeUser(email: string) {
     }
 }
 
+export async function unsubscribeUser(email: string, projectId: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
 
+        if (!user) {
+            throw new Error('Utilisateur non trouvé');
+        }
+
+        const projectUser = await prisma.projectUser.findUnique({
+            where: {
+                userId_projectId: {
+                    userId: user.id,
+                    projectId: projectId
+                }
+            }
+        });
+
+        if (!projectUser) {
+            throw new Error('Utilisateur non associé à ce projet');
+        }
+
+        await prisma.projectUser.delete({
+            where: {
+                userId_projectId: {
+                    userId: user.id,
+                    projectId: projectId
+                }
+            }
+        });
+
+        console.log(`Utilisateur ${email} désabonné du projet avec succès.`);
+        return `Utilisateur ${email} désabonné du projet avec succès.`;
+    } catch (error) {
+        console.error('Erreur lors de la désinscription de l\'utilisateur:', error);
+        throw new Error('Erreur lors de la désinscription de l\'utilisateur');
+    }
+}
+
+export async function sendNotification(userId: string, message: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: userId }
+        });
+
+        if (!user) {
+            throw new Error('Utilisateur non trouvé');
+        }
+
+        if (!user.email) {
+            throw new Error('Utilisateur n\'a pas d\'email enregistré');
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'lucmounguengui@gmail.com',
+                pass: 'M@rvelInc00'
+            }
+        });
+
+    
+        const mailOptions = {
+            from: 'lucmounguengui@gmail.com',
+            to: user.email,               
+            subject: 'Notification de projet',
+            text: message,                
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+
+        console.log('Email envoyé: ', info.response);
+        return `Notification envoyée avec succès à ${user.email}`;
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi de la notification:', error);
+        throw new Error('Erreur lors de l\'envoi de la notification');
+    }
+}
