@@ -20,7 +20,6 @@ const TaskComponent: FC<TaskProps> = ({ task, index, email, onDelete }) => {
     }
   }
 
-  // Fonction pour déterminer la classe du badge en fonction du statut
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'To Do':
