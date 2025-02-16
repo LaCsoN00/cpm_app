@@ -2,7 +2,7 @@
 
 import Wrapper from "./components/Wrapper";
 import { useEffect, useState } from "react";
-import { Globe } from "lucide-react";
+import { FolderGit2 } from "lucide-react";
 import { createProject, deleteProjectById, getProjectsCreatedByUser } from "./actions";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "react-hot-toast";
@@ -65,7 +65,7 @@ export default function Home() {
   return (
     <Wrapper>
       <div>
-        <button className="btn  btn-primary mb-6" onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}>  Nouveau Projet <Globe /></button>
+        <button className="btn  btn-primary mb-6" onClick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}>  Nouveau Projet <FolderGit2 /></button>
 
         <dialog id="my_modal_3" className="modal">
           <div className="modal-box">
@@ -95,7 +95,7 @@ export default function Home() {
                 onClick={handleSubmit} 
                 disabled={isButtonDisabled}
               >
-                Nouveau Projet <Globe />
+                Nouveau Projet <FolderGit2 />
               </button>
             </div>
           </div>

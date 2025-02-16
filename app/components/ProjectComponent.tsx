@@ -1,5 +1,5 @@
 import { Project } from '@/type'
-import { Copy, ExternalLink, Globe, Trash } from 'lucide-react';
+import { Copy, ExternalLink, FolderGit2, Trash } from 'lucide-react';
 import Link from 'next/link';
 import React, { FC } from 'react'
 import { toast } from 'react-hot-toast';
@@ -56,7 +56,7 @@ const ProjectComponent: FC<ProjectProps> = ({ project, admin, style, onDelete })
 
             <div className='w-full flex items-center mb-3'>
                 <div className='bg-primary-content text-xl h-10 w-10 rounded-lg flex justify-center items-center'>
-                    <Globe className='w-6 text-primary' />
+                    <FolderGit2 className='w-6 text-primary' />
                 </div>
                 <div className='badge ml-3 font-bold'>
                     {project.name}
