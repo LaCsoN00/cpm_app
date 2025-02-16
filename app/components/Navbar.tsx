@@ -51,7 +51,7 @@ const Navbar = () => {
     <div className="border-b boder-base-300  px-5 md:px-[10%] py-4 relative ">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <Image src="/icon-192x192.png" alt="Logo" width={32} height={32} />
+          <Image src="/icon-512x512.png" alt="Logo" width={32} height={32} />
           <div className="ml-3 flex">
             <span className="font-bold text-3xl">
               CPM <span className="text-primary">APP</span>
