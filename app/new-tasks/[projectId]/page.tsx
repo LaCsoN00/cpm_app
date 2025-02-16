@@ -33,7 +33,7 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
     const [projectId, setProjectId] = useState("");
     const [project, setProject] = useState<Project | null>(null);
     const [usersProject, setUsersProject] = useState<User[]>([]);
-    const [selectedUser, setSelectedUser] = useState<User | null>(null)
+    const [selectedUser] = useState<User | null>(null)
     const [dueDate, setDueDate] = useState<Date | null>(null)
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -62,10 +62,11 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
 
     }, [params])
 
-    const handleUserSelect = (user: User) => {
-        setSelectedUser(user)
-    }
+    const handleUserSelect = (selectedUsers: User[]) => {
+        console.log("Utilisateurs assignés :", selectedUsers);
 
+    }
+    
     const handleSubmit = async () => {
         if (!name || !projectId || !selectedUser || !description || !dueDate) {
             toast.error('Veuillez remplir tous les champs obligatoires')
@@ -95,8 +96,8 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
 
                 <div className='flex flex-col md:flex-row md:justify-between'>
                     <div className='md:w-1/4'>
-                        <AssignTask users={usersProject} projectId={projectId} onAssignTask={handleUserSelect} />
-                        <div className='flex  justify-between items-center mt-4'>
+                    <AssignTask users={usersProject} projectId={projectId} onAssignTask={handleUserSelect} />
+                    <div className='flex  justify-between items-center mt-4'>
                             <span className='badge'>
                                 A livré
                             </span>
