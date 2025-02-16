@@ -13,6 +13,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { toast } from "react-hot-toast";
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
 const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
 
     const modules = {
@@ -33,11 +34,11 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
     const [projectId, setProjectId] = useState("");
     const [project, setProject] = useState<Project | null>(null);
     const [usersProject, setUsersProject] = useState<User[]>([]);
-    const [selectedUser] = useState<User | null>(null)
-    const [dueDate, setDueDate] = useState<Date | null>(null)
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const rooter = useRouter()
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [dueDate, setDueDate] = useState<Date | null>(null);
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const router = useRouter();
 
     const fetchInfos = async (projectId: string) => {
         try {
@@ -59,68 +60,64 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
             fetchInfos(resolvedParams.projectId)
         }
         getId()
-
     }, [params])
 
     const handleUserSelect = (selectedUsers: User[]) => {
+        setSelectedUsers(selectedUsers);
         console.log("Utilisateurs assignés :", selectedUsers);
-
     }
-    
+
     const handleSubmit = async () => {
-        if (!name || !projectId || !selectedUser || !description || !dueDate) {
+        if (!name || !projectId || !selectedUsers.length || !description || !dueDate) {
             toast.error('Veuillez remplir tous les champs obligatoires')
             return
         }
         try {
-            await createTask(name, description, dueDate, projectId, email, selectedUser.email)
-            rooter.push(`/project/${projectId}`)
+            await createTask(name, description, dueDate, projectId, email, selectedUsers.map(user => user.email).join(', '));
+            router.push(`/project/${projectId}`);
         } catch (error) {
             toast.error("Une erreur est survenue lors de la création de la tâche." + error);
         }
-
     }
 
     return (
         <Wrapper>
-            <div >
+            <div>
                 <div className="breadcrumbs text-sm">
                     <ul>
                         <li><Link className="badge badge-primary" href={`/project/${projectId}`}>Retour</Link></li>
                         <li>
                             <div className='badge badge-primary'>{project?.name}</div>
                         </li>
-
                     </ul>
                 </div>
 
                 <div className='flex flex-col md:flex-row md:justify-between'>
                     <div className='md:w-1/4'>
-                    <AssignTask users={usersProject} projectId={projectId} onAssignTask={handleUserSelect} />
-                    <div className='flex  justify-between items-center mt-4'>
+                        <AssignTask users={usersProject} projectId={projectId} onAssignTask={handleUserSelect} />
+                        <div className='flex justify-between items-center mt-4'>
                             <span className='badge'>
                                 A livré
                             </span>
                             <input
                                 placeholder="Date d'échéance"
-                                className='input input-bordered  border-base-300 '
+                                className='input input-bordered border-base-300'
                                 type="date"
                                 onChange={(e) => setDueDate(new Date(e.target.value))}
                             />
                         </div>
-
                     </div>
-                    <div className='md:w-3/4 mt-4 md:mt-0 md:ml-4 '>
+                    <div className='md:w-3/4 mt-4 md:mt-0 md:ml-4'>
                         <div className='flex flex-col justify-between w-full'>
                             <input
-                                placeholder='Nom de la tache'
+                                placeholder='Nom de la tâche'
                                 className='w-full input input-bordered border border-base-300 font-bold mb-4'
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                             <ReactQuill
-                                placeholder='Decrivez la tâche'
+                                placeholder='Décrivez la tâche'
                                 value={description}
                                 modules={modules}
                                 onChange={setDescription}
@@ -130,12 +127,10 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                             <button className='btn mt-4 btn-md btn-primary'>Créer la tâche</button>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </Wrapper>
     )
 }
 
-export default Page
+export default Page;

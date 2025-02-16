@@ -22,7 +22,7 @@ const AssignTask: FC<AssignTaskProps> = ({ users, onAssignTask }) => {
     };
 
     const handleAssign = () => {
-        onAssignTask(selectedUsers);
+        onAssignTask(selectedUsers); // Assign users to the task
         const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
         if (modal) {
             modal.close();
