@@ -53,21 +53,21 @@ const AssignTask: FC<AssignTaskProps> = ({ users, onAssignTask }) => {
                             const isSelected = selectedUsers.some((u) => u.id === user.id);
                             return (
                                 <div
+                                    key={user.id}
                                     onClick={() => toggleUserSelection(user)}
                                     className={`cursor-pointer border border-base-300 p-5 rounded-xl w-full mb-3 ${isSelected ? 'bg-gray-200' : ''}`}
-                                    key={user.id}
                                 >
                                     <UserInfo
                                         role="Collaborateur"
-                                        email={user.email || null}
-                                        name={user.name || null}
+                                        email={user.email || ''}
+                                        name={user.name || ''}
                                     />
                                 </div>
                             );
                         })}
                     </div>
                     <div className="flex justify-end mt-3">
-                        <button className="btn btn-primary" onClick={handleAssign}>Confirmer</button>
+                        <button type="button" className="btn btn-primary" onClick={handleAssign}>Confirmer</button>
                     </div>
                 </div>
             </dialog>
