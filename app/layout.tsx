@@ -21,6 +21,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="fr" data-theme="light" suppressHydrationWarning>
         <head>
+          <link rel="manifest" href="/app/manifest.ts" />
           <meta name="apple-mobile-web-app-title" content="CPM" />
         </head>
         <body>

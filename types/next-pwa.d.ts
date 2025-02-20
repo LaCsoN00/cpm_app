@@ -1,1 +1,1 @@
-declare module 'next-service-worker';
+declare module 'next-pwa';
