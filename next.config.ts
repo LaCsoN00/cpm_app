@@ -1,4 +1,4 @@
-const { serviceWorker } = require("next-service-worker");
+import { serviceWorker } from "next-service-worker";
 const withServiceWorker = serviceWorker();
 
 /** @type {import('next').NextConfig} */
