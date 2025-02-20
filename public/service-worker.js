@@ -97,12 +97,12 @@ async function clearTasksFromIndexedDB() {
     request.onerror = () => reject('Erreur d\'ouverture de la base de données.');
 
     request.onsuccess = () => {
-      const db = request.result; // Même logique pour accéder à la base de données
+      const db = request.result;
       const transaction = db.transaction(['tasks'], 'readwrite');
       const store = transaction.objectStore('tasks');
       
       const clearRequest = store.clear();
-      clearRequest.onsuccess = () => resolve();  // Résolution une fois les tâches effacées
+      clearRequest.onsuccess = () => resolve();
       clearRequest.onerror = () => reject('Erreur lors de l\'effacement des tâches.');
     };
   });
