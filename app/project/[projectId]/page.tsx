@@ -11,7 +11,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import EmptyState from '@/app/components/EmptyState'
 import TaskComponent from '@/app/components/TaskComponent';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
 
