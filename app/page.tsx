@@ -72,10 +72,10 @@ export default function Home() {
             <form method="dialog">
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
-            <h3 className="font-bold text-lg">Nouveau Projet</h3><br />
+            <h3 className="font-bold text-lg">Informations Relatives aux Clients</h3><br />
             <div>
               <input
-                placeholder="Nom du projet"
+                placeholder="Nom du Client"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
