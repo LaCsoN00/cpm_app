@@ -33,6 +33,12 @@ model Project {
   users       ProjectUser[]
 }
 
+enum PaymentMethod {
+  CHEQUE
+  VIREMENT
+  ESPECE
+}
+
 model Task {
   id                  String   @id @default(uuid())
   name                String
@@ -46,6 +52,9 @@ model Task {
   createdById         String
   createdBy           User     @relation("CreatedTasks", fields: [createdById], references: [id])
   solutionDescription String?
+
+  amount              Float?          
+  paymentMethod       PaymentMethod?  
 }
 
 model ProjectUser {

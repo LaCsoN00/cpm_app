@@ -3,6 +3,8 @@
 import prisma from "@/lib/prisma";
 import { randomBytes } from "crypto";
 import nodemailer from 'nodemailer';
+import { PaymentMethod } from "@/type";
+
 
 
 export async function checkAndAddUser(email: string, name: string) {
@@ -282,6 +284,7 @@ export async function createTask(
     name: string,
     description: string,
     dueDate: Date | null,
+    amount: number | "" | null,
     projectId: string,
     createdByEmail: string,
     assignToEmail: string | undefined
@@ -313,6 +316,7 @@ export async function createTask(
                 name,
                 description,
                 dueDate,
+                amount: amount === "" ? null : amount,
                 projectId,
                 createdById: createdBy.id,
                 userId: assignedUserId
@@ -360,42 +364,68 @@ export const getTaskDetails = async (taskId: string) => {
         console.error(error)
         throw new Error
     }
-}
+};
 
-export const updateTaskStatus = async (taskId: string, newStatus: string, solutionDescription?: string) => {
+type LocalPaymentMethod = "CHEQUE" | "VIREMENT" | "ESPECE";
+
+export const updateTaskStatus = async (
+    taskId: string,
+    newStatus: string,
+    solutionDescription?: string,
+    paymentMethod?: LocalPaymentMethod
+) => {
     try {
-
         const existingTask = await prisma.task.findUnique({
-            where: {
-                id: taskId
-            }
-        })
+            where: { id: taskId }
+        });
 
         if (!existingTask) {
             throw new Error('Tâche non trouvée');
         }
 
+        const updateData: { status: string; solutionDescription?: string; paymentMethod?: PaymentMethod } = {
+            status: newStatus
+        };
+
         if (newStatus === "Done" && solutionDescription) {
-            await prisma.task.update({
-                where: { id: taskId },
-                data: {
-                    status: newStatus,
-                    solutionDescription
-                }
-            })
-        } else {
-            await prisma.task.update({
-                where: { id: taskId },
-                data: {
-                    status: newStatus
-                }
-            })
+            updateData.solutionDescription = solutionDescription;
         }
+
+        if (paymentMethod) {
+            updateData.paymentMethod = paymentMethod;
+        }
+
+        await prisma.task.update({
+            where: { id: taskId },
+            data: updateData
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error("Erreur lors de la mise à jour de la tâche");
+    }
+};
+
+export const updateTaskStatusWithPayment = async (
+    taskId: string,
+    newStatus: string,
+    solution: string,
+    paymentMethod: PaymentMethod
+  ) => {
+    try {
+      const taskUpdate = await prisma.task.update({
+        where: { id: taskId },
+        data: {
+          status: newStatus,
+          solutionDescription: solution, 
+          paymentMethod: paymentMethod,
+        },
+      });
+      return taskUpdate;
     } catch (error) {
         console.error(error)
-        throw new Error
+      throw new Error("Erreur lors de la mise à jour de la tâche");
     }
-}
+  };
 
 export async function subscribeUser(email: string) {
     try {

@@ -22,7 +22,6 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
     const [projectId, setProjectId] = useState("");
     const [project, setProject] = useState<Project | null>(null);
     const [statusFilter, setStatusFilter] = useState<string>('');
-
     const [assignedFilter, setAssignedFilter] = useState<boolean>(false);
     const [taskCounts, setTaskCounts] = useState({ todo: 0, inProgress: 0, done: 0, assigned: 0 })
 
@@ -30,7 +29,6 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
         try {
             const project = await getProjectInfo(projectId, true)
             setProject(project)
-          
         } catch {
             console.error('Erreur lors du chargement du projet:');
         }
@@ -41,7 +39,6 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
             const resolvedParams = await params;
             setProjectId(resolvedParams.projectId)
             fetchInfos(resolvedParams.projectId)
-            
         }
         getId()
     }, [params])
@@ -65,13 +62,13 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
         return statusMatch && assignedMatch
     })
 
-    const deleteTask = async ( taskId : string) => {
+    const deleteTask = async (taskId: string) => {
         try {
             await deleteTaskById(taskId)
             fetchInfos(projectId)
-            toast.success('Tache supprimée !')
+            toast.success('Tâche supprimée !')
         } catch {
-            toast.error("Error Task project")
+            toast.error("Erreur lors de la suppression de la tâche")
         }
     }
 
@@ -94,7 +91,7 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                     </div>
                 </div>
 
-                <div className='mt-6 md:ml-6 md:mt-0 md:w-3/4 '>
+                <div className='mt-6 md:ml-6 md:mt-0 md:w-3/4'>
                     <div className='md:flex md:justify-between'>
                         <div className='flex flex-col'>
                             <div className='space-x-2 mt-2'>
@@ -117,8 +114,8 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                                     <Loader className='w-4' />
                                     En cours ({taskCounts.inProgress})
                                 </button>
-
                             </div>
+
                             <div className='space-x-2 mt-2'>
                                 <button
                                     onClick={() => { setStatusFilter('Done') }}
@@ -140,8 +137,8 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                             <CopyPlus className='w-4' />
                         </Link>
                     </div>
-                    <div className='mt-6 border border-base-300 p-5 shadow-sm rounded-xl'>
 
+                    <div className='mt-6 border border-base-300 p-5 shadow-sm rounded-xl'>
                         {filteredTasks && filteredTasks.length > 0 ? (
                             <div className='overflow-auto'>
                                 <table className='table table-lg'>
@@ -151,18 +148,20 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                                             <th>Titre</th>
                                             <th >Assigné à</th>
                                             <th className="hidden md:flex">A livré le</th>
-                                            <th >Actions</th>
+                                            <th>Montant</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className='w-fit'>
                                         {filteredTasks.map((task, index) => (
                                             <tr key={task.id} className='border-t last:border-none'>
                                                 <TaskComponent task={task} index={index} onDelete={deleteTask} email={email} />
+                                                <td className='text-center'>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
-
                             </div>
                         ) : (
                             <EmptyState
@@ -172,14 +171,10 @@ const Page = ({ params }: { params: Promise<{ projectId: string }> }) => {
                             />
                         )}
                     </div>
-
-
                 </div>
-
-
             </div>
         </Wrapper>
     )
 }
 
-export default Page
+export default Page;

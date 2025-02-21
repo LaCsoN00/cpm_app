@@ -1,6 +1,9 @@
-import { Project as PrismaProject, Task  as  PrismaTask, User } from '@prisma/client';
+import { Project as PrismaProject, Task as PrismaTask, User } from '@prisma/client';
 
-// Fusion du type PrismaProject avec vos propriétés supplémentaires
+export type PaymentMethod = "CHEQUE" | "VIREMENT" | "ESPECE"; // Ajout de PaymentMethod
+
+export type TaskStatus = "To Do" | "In Progress" | "Done"; // Définition d'un type pour les statuts de tâche
+
 export type Project = PrismaProject & {
   totalTasks?: number;
   collaboratorsCount?: number;
@@ -14,12 +17,12 @@ export type Project = PrismaProject & {
     inProgressPercentage: number;
     toDoPercentage: number;
   };
-  tasks?: Task[]; // Assurez-vous que la relation tasks est incluse
+  tasks?: Task[];
   users?: User[]; 
-  createdBy?: User, 
+  createdBy?: User;
 };
 
 export type Task = PrismaTask & {
-  user?: User | null; 
-  createdBy?: User | null ;
-}
+  user?: User | null;
+  createdBy?: User | null;
+};
