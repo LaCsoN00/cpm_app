@@ -2,16 +2,14 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
-import RegisterSW from "../public/register-sw";
 
 export const metadata: Metadata = {
   title: "CPM",
   description: "Le cabinet qui vous accompagne dans vos projets",
   icons: {
-    icon: "/public/favicon.png",
+    icon: "/icons/favicon.svg",
   },
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -21,11 +19,12 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="fr" data-theme="light" suppressHydrationWarning>
         <head>
-          <meta name="apple-mobile-web-app-title" content="CPM" />
+          <link rel="shortcut icon" href="/favicon.svg" />
+          <meta name="apple-mobile-web-app-title" content="cpm app" />
+          <link rel="manifest" href="/manifest.json" />
         </head>
         <body>
           <Toaster position="top-center" />
-          <RegisterSW />
           {children}
         </body>
       </html>

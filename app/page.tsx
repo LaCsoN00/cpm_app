@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import { Project } from "@/type";
 import ProjectComponent from "./components/ProjectComponent";
 import EmptyState from "./components/EmptyState";
-
+import { Workbox } from 'workbox-window'
 export default function Home() {
 
   const { user } = useUser()
@@ -59,6 +59,15 @@ export default function Home() {
       console.error('Error creating project:', error);
     }
   }
+
+const isProduction = process.env.NODE_ENV === 'production'
+
+  useEffect(() => {
+    if (isProduction && 'serviceWorker' in navigator) {
+      const wb = new Workbox('../../../../service-worker.js')
+      wb.register()
+    }
+  }, [isProduction])
 
   const isButtonDisabled = !name || !descrition;
 

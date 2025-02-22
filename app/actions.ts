@@ -2,8 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import { randomBytes } from "crypto";
-import nodemailer from 'nodemailer';
 import { PaymentMethod } from "@/type";
+import webpush from 'web-push'
 
 
 
@@ -427,101 +427,71 @@ export const updateTaskStatusWithPayment = async (
     }
   };
 
-export async function subscribeUser(email: string) {
+  webpush.setVapidDetails(
+    'mailto:lucmounguengui@gmail.com',
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+  )
+   
+  let subscription: PushSubscription | null = null
+ 
+  export async function subscribeUser(subscription: PushSubscriptionJSON) {
     try {
-        const user = await prisma.user.findUnique({
-            where: { email }
-        });
-
-        if (!user) {
-            throw new Error('Utilisateur non trouvé');
-        }
-
-        console.log(`Utilisateur avec l'email ${email} a été inscrit avec succès.`);
-        return `Utilisateur avec l'email ${email} a été inscrit avec succès.`;
-
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subscription),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to subscribe user");
+      }
+  
+      return await response.json();
     } catch (error) {
-        console.error('Erreur lors de la souscription de l\'utilisateur:', error);
-        throw new Error('Erreur lors de la souscription de l\'utilisateur');
+      console.error("Error subscribing user:", error);
     }
-}
-
-export async function unsubscribeUser(email: string, projectId: string) {
-    try {
-        const user = await prisma.user.findUnique({
-            where: { email }
-        });
-
-        if (!user) {
-            throw new Error('Utilisateur non trouvé');
-        }
-
-        const projectUser = await prisma.projectUser.findUnique({
-            where: {
-                userId_projectId: {
-                    userId: user.id,
-                    projectId: projectId
-                }
-            }
-        });
-
-        if (!projectUser) {
-            throw new Error('Utilisateur non associé à ce projet');
-        }
-
-        await prisma.projectUser.delete({
-            where: {
-                userId_projectId: {
-                    userId: user.id,
-                    projectId: projectId
-                }
-            }
-        });
-
-        console.log(`Utilisateur ${email} désabonné du projet avec succès.`);
-        return `Utilisateur ${email} désabonné du projet avec succès.`;
-    } catch (error) {
-        console.error('Erreur lors de la désinscription de l\'utilisateur:', error);
-        throw new Error('Erreur lors de la désinscription de l\'utilisateur');
+  }  
+   
+  export async function unsubscribeUser() {
+    subscription = null
+    return { success: true }
+  }
+   
+  export async function sendNotification(message: string) {
+    if (!subscription) {
+      throw new Error('No subscription available')
     }
-}
 
-export async function sendNotification(userId: string, message: string) {
     try {
-        const user = await prisma.user.findUnique({
-            where: { id: userId }
-        });
+        const subJSON = subscription.toJSON();
 
-        if (!user) {
-            throw new Error('Utilisateur non trouvé');
-        }
-
-        if (!user.email) {
-            throw new Error('Utilisateur n\'a pas d\'email enregistré');
-        }
-
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'lucmounguengui@gmail.com',
-                pass: 'M@rvelInc00'
-            }
-        });
-
-    
-        const mailOptions = {
-            from: 'lucmounguengui@gmail.com',
-            to: user.email,               
-            subject: 'Notification de projet',
-            text: message,                
+        if (!subJSON.endpoint) {
+            throw new Error('Subscription endpoint is undefined.');
+          }
+      
+        const pushSubscription = {
+          endpoint: subJSON.endpoint,
+          keys: {
+            p256dh: subJSON.keys?.p256dh || '',
+            auth: subJSON.keys?.auth || '',
+          },
         };
-
-        const info = await transporter.sendMail(mailOptions);
-
-        console.log('Email envoyé: ', info.response);
-        return `Notification envoyée avec succès à ${user.email}`;
-    } catch (error) {
-        console.error('Erreur lors de l\'envoi de la notification:', error);
-        throw new Error('Erreur lors de l\'envoi de la notification');
+      
+        await webpush.sendNotification(
+          pushSubscription, 
+          JSON.stringify({
+            title: 'Test Notification',
+            body: message,
+            icon: '/icon.png',
+          })
+        );
+      
+        return { success: true };
+      } catch (error) {
+        console.error('Error sending push notification:', error);
+        return { success: false, error: 'Failed to send notification' };
+      }
     }
-}

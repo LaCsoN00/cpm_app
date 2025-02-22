@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export",
+    "export": "next build",
     "lint": "next lint",
     "prisma:seed": "prisma db seed",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
@@ -14,36 +14,45 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.23.0",
     "@clerk/nextjs": "^6.11.3",
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@prisma/client": "^6.4.1",
     "cpm_app": "file:",
     "daisyui": "^4.12.23",
     "lucide-react": "^0.475.0",
-    "next": "15.1.7",
+    "next": "^15.1.7",
     "next-pwa": "^5.6.0",
     "next-service-worker": "^1.0.0",
+    "next-with-workbox": "^3.0.5",
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-quill-new": "^3.3.3",
     "react-toastify": "^11.0.3",
+    "web-push": "^3.6.7",
     "workbox-cacheable-response": "^7.3.0",
     "workbox-core": "^7.3.0",
     "workbox-expiration": "^7.3.0",
     "workbox-routing": "^7.3.0",
-    "workbox-strategies": "^7.3.0"
+    "workbox-strategies": "^7.3.0",
+    "workbox-window": "^7.3.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@nrwl/next": "^19.8.4",
+    "@types/http-proxy": "^1.17.16",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/semver": "^7.5.8",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",
     "prisma": "^6.4.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack": "^5.98.0"
   }
 }
