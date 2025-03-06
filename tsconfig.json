@@ -29,10 +29,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next.config.js",
-    "public/manifest.js",
+    "public/manifest.ts",
     "public/service-worker.js",
     "middleware.ts",
-    "next.config.ts"
-, "eslint.config.mjs"  ],
+    "next.config.js"
+, "eslint.config.mjs", "app/manifest.ts", "app/manifest.ts"  ],
   "exclude": ["node_modules"]
 }

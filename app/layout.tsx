@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icons/favicon.svg",
   },
-  manifest: "/manifest.ts",
+  manifest: "/manifest.json",
 };
 export default function RootLayout({
   children,
@@ -22,7 +22,7 @@ export default function RootLayout({
         <head>
           <link rel="shortcut icon" href="/favicon.svg" />
           <meta name="apple-mobile-web-app-title" content="cpm app" />
-          <link rel="manifest" href="/manifest.ts" />
+          <link rel="manifest" href="/manifest.json" />
         </head>
         <body>
           <Toaster position="top-center" />

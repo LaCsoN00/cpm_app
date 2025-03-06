@@ -42,5 +42,16 @@
       "type": "image/png",
       "form_factor": "narrow"
     }
+  ],
+  "display_override": ["window-controls-overlay"],
+  "protocol_handlers": [
+    {
+      "protocol": "web+tea",
+      "url": "/tea?type=%s"
+    },
+    {
+      "protocol": "web+coffee",
+      "url": "/coffee?type=%s"
+    }
   ]
 }
