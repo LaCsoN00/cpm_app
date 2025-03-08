@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
+
 export const metadata: Metadata = {
   title: "CPM",
   description: "Le cabinet qui vous accompagne dans vos projets",

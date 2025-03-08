@@ -14,6 +14,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.23.0",
     "@clerk/nextjs": "^6.11.3",
+    "@clerk/remix": "^4.5.4",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@nodelib/fs.walk": "^3.0.1",
     "@prisma/client": "^6.4.1",
@@ -27,8 +28,8 @@
     "next-service-worker": "^1.0.0",
     "next-with-workbox": "^3.0.5",
     "nodemailer": "^6.10.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hot-toast": "^2.5.2",
     "react-quill-new": "^3.3.3",
     "react-toastify": "^11.0.3",
