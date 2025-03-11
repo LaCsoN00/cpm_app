@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="fr" data-theme="light" suppressHydrationWarning>
+      <html lang="fr" data-theme="Dark" suppressHydrationWarning>
         <head>
           <link rel="shortcut icon" href="/favicon.svg" />
           <meta name="apple-mobile-web-app-title" content="cpm app" />
