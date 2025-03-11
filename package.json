@@ -1,0 +1,43 @@
+{
+  "name": "d",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.12.4",
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@jridgewell/sourcemap-codec": "^1.5.0",
+    "@prisma/client": "^6.5.0",
+    "@vercel/speed-insights": "^1.2.0",
+    "glob": "^11.0.1",
+    "lru-cache": "^11.0.2",
+    "lucide-react": "^0.479.0",
+    "next": "15.2.2",
+    "postgres": "^3.4.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "react-quill-new": "^3.3.3",
+    "react-toastify": "^11.0.5",
+    "workbox-build": "^7.3.0",
+    "workbox-webpack-plugin": "^7.3.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.2",
+    "prisma": "^6.5.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "webpack": "^5.98.0"
+  }
+}
